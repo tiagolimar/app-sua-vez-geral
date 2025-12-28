@@ -7,7 +7,7 @@ export function useWebSocket(onMessage) {
 
     useEffect(() => {
         function connect() {
-            const socket = new WebSocket('ws://localhost:3000');
+            const socket = new WebSocket('wss://tlima-dev.site');
             socketRef.current = socket;
 
             socket.onopen = () => {

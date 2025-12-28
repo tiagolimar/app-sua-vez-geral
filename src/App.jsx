@@ -12,8 +12,8 @@ import ItensList from './components/ItensList/ItensList.jsx';
 import Confirmacao from './components/Confirmacao';
 import Header from './components/Header/Header.jsx';
 
-// const URL = 'https://tlima-dev.site/api/';
-const URL = 'http://localhost:3000/api/';
+const URL = 'https://tlima-dev.site/api/';
+// const URL = 'http://localhost:3000/api/';
 
 export default function App() {
     const { categoria: categoriaAtual } = useParams();

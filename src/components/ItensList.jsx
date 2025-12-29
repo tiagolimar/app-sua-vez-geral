@@ -10,12 +10,12 @@ export default function ItensList({ itens, status }) {
     }));
 
     return (
-        <div className="d-flex gap-3 px-3">
+        <div className="d-flex gap-2 px-2 pt-2">
             {itensFiltrados.map(({ status, apelido, color, itens }) => (
                 <div className="bg-black rounded shadow-sm" style={{ flex: 1 }} key={status}>
                     <h3 style={{ textShadow: '2px 2px 2px #000000' }} className=
 
-                        {`bg-${color} p-2 mb-3 rounded-top text-center fs-1 text-white`}>{apelido}</h3>
+                        {`bg-${color} p-2 mb-2 rounded-top text-center fs-1 text-white`}>{apelido}</h3>
                     <div className="d-flex flex-wrap justify-content-center">
                         {itens.sort((a, b) => a.venda_id - b.venda_id).map(item => {
 

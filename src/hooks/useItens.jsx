@@ -14,5 +14,5 @@ export default function useItens(URL, selectedCategoria) {
         }
     };
 
-    return { itens, carregarItens };
+    return { itens, carregarItens, setItens };
 }

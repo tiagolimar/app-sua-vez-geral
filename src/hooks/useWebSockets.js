@@ -1,14 +1,17 @@
 import { useEffect, useRef } from 'react';
 
-export function useWebSocket(onMessage) {
+export function useWebSocket(onMessage, onOpen) {
     const socketRef = useRef(null);
     const retryRef = useRef(0);
     const timeoutRef = useRef(null);
 
     const onMessageRef = useRef(onMessage);
+    const onOpenRef = useRef(onOpen);
+
     useEffect(() => {
         onMessageRef.current = onMessage;
-    }, [onMessage]);
+        onOpenRef.current = onOpen;
+    }, [onMessage, onOpen]);
 
     useEffect(() => {
         function connect() {
@@ -18,11 +21,13 @@ export function useWebSocket(onMessage) {
             socket.onopen = () => {
                 console.log('🟢 WebSocket conectado');
                 retryRef.current = 0;
+                if (onOpenRef.current) {
+                    onOpenRef.current(socket);
+                }
             };
 
             socket.onmessage = (event) => {
                 const data = JSON.parse(event.data);
-
                 if (onMessageRef.current) {
                     onMessageRef.current(data);
                 }

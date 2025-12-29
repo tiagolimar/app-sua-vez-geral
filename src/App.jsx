@@ -34,7 +34,7 @@ export default function App() {
             <Header />
             <ItensList itens={itens} status={status} />
             <div className='position-fixed bottom-0 end-0 p-2 d-flex align-items-end gap-4'>
-                <p className='fs-2 fw-bold my-0'>Acompanhe pelo celular.</p>
+                <p className='fs-2 fw-bold my-0 bg-black text-white px-2 rounded'>Acompanhe pelo celular.</p>
                 <QRCodeCanvas value="https://vj-app-sua-vez.vercel.app/venda" size={120} />
             </div>
         </>

@@ -5,9 +5,14 @@ export function useWebSocket(onMessage) {
     const retryRef = useRef(0);
     const timeoutRef = useRef(null);
 
+    const onMessageRef = useRef(onMessage);
+    useEffect(() => {
+        onMessageRef.current = onMessage;
+    }, [onMessage]);
+
     useEffect(() => {
         function connect() {
-            const socket = new WebSocket('wss://tlima-dev.site');
+            const socket = new WebSocket(import.meta.env.VITE_WS_URL);
             socketRef.current = socket;
 
             socket.onopen = () => {
@@ -17,7 +22,10 @@ export function useWebSocket(onMessage) {
 
             socket.onmessage = (event) => {
                 const data = JSON.parse(event.data);
-                onMessage?.(data);
+
+                if (onMessageRef.current) {
+                    onMessageRef.current(data);
+                }
             };
 
             socket.onclose = () => {
@@ -25,10 +33,8 @@ export function useWebSocket(onMessage) {
                     console.log('❌ Falha permanente no WebSocket');
                     return;
                 }
-
                 const delay = Math.min(1000 * 2 ** retryRef.current, 10000);
                 retryRef.current++;
-
                 console.log(`🔄 Reconectando em ${delay}ms`);
                 timeoutRef.current = setTimeout(connect, delay);
             };
@@ -44,7 +50,7 @@ export function useWebSocket(onMessage) {
             clearTimeout(timeoutRef.current);
             socketRef.current?.close();
         };
-    }, [onMessage]);
+    }, []);
 
     return socketRef;
 }

@@ -48,7 +48,6 @@ export default function Venda() {
         },
         (socket) => {
             if (searchId) {
-                console.log(`📡 Inscrevendo-se na venda ${searchId}`);
                 sendMessage(socket, {
                     type: 'subscribe_venda',
                     payload: { id: Number(searchId) }
@@ -60,7 +59,6 @@ export default function Venda() {
     // Efeito para se inscrever quando o ID muda e o socket já está aberto
     useEffect(() => {
         if (searchId && socketRef.current) {
-            console.log(`📡 Atualizando inscrição para venda ${searchId}`);
             sendMessage(socketRef.current, {
                 type: 'subscribe_venda',
                 payload: { id: Number(searchId) }

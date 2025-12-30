@@ -15,32 +15,36 @@ export function useWebSocket(onMessage, onOpen) {
 
     useEffect(() => {
         function connect() {
+            // 🔒 garante que não existe socket pendurado
+            if (socketRef.current) {
+                socketRef.current.onclose = null;
+                socketRef.current.onerror = null;
+                socketRef.current.close();
+            }
+
             const socket = new WebSocket(import.meta.env.VITE_WS_URL);
             socketRef.current = socket;
 
             socket.onopen = () => {
-                console.log('🟢 WebSocket conectado');
                 retryRef.current = 0;
-                if (onOpenRef.current) {
-                    onOpenRef.current(socket);
-                }
+                onOpenRef.current?.(socket);
             };
 
             socket.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                if (onMessageRef.current) {
-                    onMessageRef.current(data);
+                try {
+                    const data = JSON.parse(event.data);
+                    onMessageRef.current?.(data);
+                } catch {
+                    // ignora mensagem inválida
                 }
             };
 
             socket.onclose = () => {
-                if (retryRef.current >= 5) {
-                    console.log('❌ Falha permanente no WebSocket');
-                    return;
-                }
+                if (retryRef.current >= 5) return;
+
                 const delay = Math.min(1000 * 2 ** retryRef.current, 10000);
                 retryRef.current++;
-                console.log(`🔄 Reconectando em ${delay}ms`);
+
                 timeoutRef.current = setTimeout(connect, delay);
             };
 
@@ -54,6 +58,7 @@ export function useWebSocket(onMessage, onOpen) {
         return () => {
             clearTimeout(timeoutRef.current);
             socketRef.current?.close();
+            socketRef.current = null;
         };
     }, []);
 

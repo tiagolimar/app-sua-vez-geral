@@ -17,7 +17,7 @@ export default function ItensList({ itens, status }) {
 
                         {`bg-${color} p-2 mb-2 rounded-top text-center fs-1 text-white`}>{apelido}</h3>
                     <div className="d-flex flex-wrap justify-content-center">
-                        {itens.sort((a, b) => a.venda_id - b.venda_id || a.id - b.id).map((item, index) => {
+                        {itens.length > 0 ? itens.sort((a, b) => a.venda_id - b.venda_id || a.id - b.id).map((item, index) => {
 
                             return (
                                 <div className="mb-1" key={index}>
@@ -26,7 +26,7 @@ export default function ItensList({ itens, status }) {
                                     </Card>
                                 </div>
                             );
-                        })}
+                        }) : <p className="text-center text-white">Aguardando novos pedidos...</p>}
                     </div>
                 </div>
             ))}

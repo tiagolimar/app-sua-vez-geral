@@ -74,12 +74,12 @@ export default function App() {
         <>
             <Header />
             <ItensList itens={itens} status={status} />
-            <div className='position-fixed bottom-0 end-0 p-2 d-flex align-items-end gap-2'>
-                <p className='fs-2 fw-bold my-0 bg-black text-white px-2 rounded'>Acompanhe pelo celular.</p>
-                <div className='border border-black border-5 rounded'>
+            <div className='position-fixed bottom-0 end-0 p-2 pb-0'>
+                <div className="line-top d-flex align-items-end gap-2">
+                    <p className='fs-2 fw-bold my-0 bg-black text-white px-2 rounded'>Acompanhe pelo celular.</p>
                     <QRCodeCanvas value="https://vj-app-sua-vez.vercel.app/venda" size={120} />
-
                 </div>
+                <p className="text-center text-white bg-black p-2 rounded py-0 mt-1 fs-4">Acesse <a href="https://vj-app-sua-vez.vercel.app/venda" className="text-decoration-none text-warning">https://vj-app-sua-vez.vercel.app/venda</a></p>
             </div>
             <ChamarModal show={showModal} onClose={handleCloseModal} categoria={categoria} id={id} />
         </>
